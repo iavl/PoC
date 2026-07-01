@@ -23,7 +23,6 @@ abstract contract Context {
     }
 }
 
-
 // File @openzeppelin/contracts/token/ERC20/IERC20.sol@v3.3.0
 
 pragma solidity >=0.6.0 <0.8.0;
@@ -101,7 +100,6 @@ interface IERC20 {
      */
     event Approval(address indexed owner, address indexed spender, uint256 value);
 }
-
 
 // File @openzeppelin/contracts/math/SafeMath.sol@v3.3.0
 
@@ -263,12 +261,9 @@ library SafeMath {
     }
 }
 
-
 // File @openzeppelin/contracts/token/ERC20/ERC20.sol@v3.3.0
 
 pragma solidity >=0.6.0 <0.8.0;
-
-
 
 /**
  * @dev Implementation of the {IERC20} interface.
@@ -297,9 +292,9 @@ pragma solidity >=0.6.0 <0.8.0;
 contract ERC20 is Context, IERC20 {
     using SafeMath for uint256;
 
-    mapping (address => uint256) private _balances;
+    mapping(address => uint256) private _balances;
 
-    mapping (address => mapping (address => uint256)) private _allowances;
+    mapping(address => mapping(address => uint256)) private _allowances;
 
     uint256 private _totalSupply;
 
@@ -316,7 +311,7 @@ contract ERC20 is Context, IERC20 {
      * All three of these values are immutable: they can only be set once during
      * construction.
      */
-    constructor (string memory name_, string memory symbol_) public {
+    constructor(string memory name_, string memory symbol_) public {
         _name = name_;
         _symbol = symbol_;
         _decimals = 18;
@@ -415,7 +410,11 @@ contract ERC20 is Context, IERC20 {
      */
     function transferFrom(address sender, address recipient, uint256 amount) public virtual override returns (bool) {
         _transfer(sender, recipient, amount);
-        _approve(sender, _msgSender(), _allowances[sender][_msgSender()].sub(amount, "ERC20: transfer amount exceeds allowance"));
+        _approve(
+            sender,
+            _msgSender(),
+            _allowances[sender][_msgSender()].sub(amount, "ERC20: transfer amount exceeds allowance")
+        );
         return true;
     }
 
@@ -451,7 +450,11 @@ contract ERC20 is Context, IERC20 {
      * `subtractedValue`.
      */
     function decreaseAllowance(address spender, uint256 subtractedValue) public virtual returns (bool) {
-        _approve(_msgSender(), spender, _allowances[_msgSender()][spender].sub(subtractedValue, "ERC20: decreased allowance below zero"));
+        _approve(
+            _msgSender(),
+            spender,
+            _allowances[_msgSender()][spender].sub(subtractedValue, "ERC20: decreased allowance below zero")
+        );
         return true;
     }
 
@@ -480,7 +483,8 @@ contract ERC20 is Context, IERC20 {
         emit Transfer(sender, recipient, amount);
     }
 
-    /** @dev Creates `amount` tokens and assigns them to `account`, increasing
+    /**
+     * @dev Creates `amount` tokens and assigns them to `account`, increasing
      * the total supply.
      *
      * Emits a {Transfer} event with `from` set to the zero address.
@@ -566,9 +570,8 @@ contract ERC20 is Context, IERC20 {
      *
      * To learn more about hooks, head to xref:ROOT:extending-contracts.adoc#using-hooks[Using Hooks].
      */
-    function _beforeTokenTransfer(address from, address to, uint256 amount) internal virtual { }
+    function _beforeTokenTransfer(address from, address to, uint256 amount) internal virtual {}
 }
-
 
 // File @openzeppelin/contracts/access/Ownable.sol@v3.3.0
 pragma solidity >=0.6.0 <0.8.0;
@@ -593,7 +596,7 @@ abstract contract Ownable is Context {
     /**
      * @dev Initializes the contract setting the deployer as the initial owner.
      */
-    constructor () internal {
+    constructor() internal {
         address msgSender = _msgSender();
         _owner = msgSender;
         emit OwnershipTransferred(address(0), msgSender);
@@ -637,7 +640,6 @@ abstract contract Ownable is Context {
     }
 }
 
-
 // File @openzeppelin/contracts/utils/ReentrancyGuard.sol@v3.3.0
 
 pragma solidity >=0.6.0 <0.8.0;
@@ -675,7 +677,7 @@ abstract contract ReentrancyGuard {
 
     uint256 private _status;
 
-    constructor () internal {
+    constructor() internal {
         _status = _NOT_ENTERED;
     }
 
@@ -701,11 +703,9 @@ abstract contract ReentrancyGuard {
     }
 }
 
-
 // File @openzeppelin/contracts/utils/SafeCast.sol@v3.3.0
 
 pragma solidity >=0.6.0 <0.8.0;
-
 
 /**
  * @dev Wrappers over Solidity's uintXX/intXX casting operators with added overflow
@@ -723,7 +723,6 @@ pragma solidity >=0.6.0 <0.8.0;
  * all math on `uint256` and `int256` and then downcasting.
  */
 library SafeCast {
-
     /**
      * @dev Returns the downcasted uint128 from uint256, reverting on
      * overflow (when the input is greater than largest uint128).
@@ -735,7 +734,7 @@ library SafeCast {
      * - input must fit into 128 bits
      */
     function toUint128(uint256 value) internal pure returns (uint128) {
-        require(value < 2**128, "SafeCast: value doesn\'t fit in 128 bits");
+        require(value < 2 ** 128, "SafeCast: value doesn\'t fit in 128 bits");
         return uint128(value);
     }
 
@@ -750,7 +749,7 @@ library SafeCast {
      * - input must fit into 64 bits
      */
     function toUint64(uint256 value) internal pure returns (uint64) {
-        require(value < 2**64, "SafeCast: value doesn\'t fit in 64 bits");
+        require(value < 2 ** 64, "SafeCast: value doesn\'t fit in 64 bits");
         return uint64(value);
     }
 
@@ -765,7 +764,7 @@ library SafeCast {
      * - input must fit into 32 bits
      */
     function toUint32(uint256 value) internal pure returns (uint32) {
-        require(value < 2**32, "SafeCast: value doesn\'t fit in 32 bits");
+        require(value < 2 ** 32, "SafeCast: value doesn\'t fit in 32 bits");
         return uint32(value);
     }
 
@@ -780,7 +779,7 @@ library SafeCast {
      * - input must fit into 16 bits
      */
     function toUint16(uint256 value) internal pure returns (uint16) {
-        require(value < 2**16, "SafeCast: value doesn\'t fit in 16 bits");
+        require(value < 2 ** 16, "SafeCast: value doesn\'t fit in 16 bits");
         return uint16(value);
     }
 
@@ -795,7 +794,7 @@ library SafeCast {
      * - input must fit into 8 bits.
      */
     function toUint8(uint256 value) internal pure returns (uint8) {
-        require(value < 2**8, "SafeCast: value doesn\'t fit in 8 bits");
+        require(value < 2 ** 8, "SafeCast: value doesn\'t fit in 8 bits");
         return uint8(value);
     }
 
@@ -825,7 +824,7 @@ library SafeCast {
      * _Available since v3.1._
      */
     function toInt128(int256 value) internal pure returns (int128) {
-        require(value >= -2**127 && value < 2**127, "SafeCast: value doesn\'t fit in 128 bits");
+        require(value >= -2 ** 127 && value < 2 ** 127, "SafeCast: value doesn\'t fit in 128 bits");
         return int128(value);
     }
 
@@ -843,7 +842,7 @@ library SafeCast {
      * _Available since v3.1._
      */
     function toInt64(int256 value) internal pure returns (int64) {
-        require(value >= -2**63 && value < 2**63, "SafeCast: value doesn\'t fit in 64 bits");
+        require(value >= -2 ** 63 && value < 2 ** 63, "SafeCast: value doesn\'t fit in 64 bits");
         return int64(value);
     }
 
@@ -861,7 +860,7 @@ library SafeCast {
      * _Available since v3.1._
      */
     function toInt32(int256 value) internal pure returns (int32) {
-        require(value >= -2**31 && value < 2**31, "SafeCast: value doesn\'t fit in 32 bits");
+        require(value >= -2 ** 31 && value < 2 ** 31, "SafeCast: value doesn\'t fit in 32 bits");
         return int32(value);
     }
 
@@ -879,7 +878,7 @@ library SafeCast {
      * _Available since v3.1._
      */
     function toInt16(int256 value) internal pure returns (int16) {
-        require(value >= -2**15 && value < 2**15, "SafeCast: value doesn\'t fit in 16 bits");
+        require(value >= -2 ** 15 && value < 2 ** 15, "SafeCast: value doesn\'t fit in 16 bits");
         return int16(value);
     }
 
@@ -897,7 +896,7 @@ library SafeCast {
      * _Available since v3.1._
      */
     function toInt8(int256 value) internal pure returns (int8) {
-        require(value >= -2**7 && value < 2**7, "SafeCast: value doesn\'t fit in 8 bits");
+        require(value >= -2 ** 7 && value < 2 ** 7, "SafeCast: value doesn\'t fit in 8 bits");
         return int8(value);
     }
 
@@ -909,11 +908,10 @@ library SafeCast {
      * - input must be less than or equal to maxInt256.
      */
     function toInt256(uint256 value) internal pure returns (int256) {
-        require(value < 2**255, "SafeCast: value doesn't fit in an int256");
+        require(value < 2 ** 255, "SafeCast: value doesn't fit in an int256");
         return int256(value);
     }
 }
-
 
 // File @openzeppelin/contracts/math/SignedSafeMath.sol@v3.3.0
 pragma solidity >=0.6.0 <0.8.0;
@@ -923,7 +921,7 @@ pragma solidity >=0.6.0 <0.8.0;
  * @dev Signed math operations with safety checks that revert on error.
  */
 library SignedSafeMath {
-    int256 constant private _INT256_MIN = -2**255;
+    int256 private constant _INT256_MIN = -2 ** 255;
 
     /**
      * @dev Returns the multiplication of two signed integers, reverting on
@@ -1007,7 +1005,6 @@ library SignedSafeMath {
     }
 }
 
-
 // File contracts/lib/AddressArrayUtils.sol
 
 /*
@@ -1036,7 +1033,6 @@ pragma solidity 0.6.10;
  * Utility functions to handle Address Arrays
  */
 library AddressArrayUtils {
-
     /**
      * Finds the index of the first occurrence of the given element.
      * @param A The input array to search
@@ -1054,22 +1050,22 @@ library AddressArrayUtils {
     }
 
     /**
-    * Returns true if the value is present in the list. Uses indexOf internally.
-    * @param A The input array to search
-    * @param a The value to find
-    * @return Returns isIn for the first occurrence starting from index 0
-    */
+     * Returns true if the value is present in the list. Uses indexOf internally.
+     * @param A The input array to search
+     * @param a The value to find
+     * @return Returns isIn for the first occurrence starting from index 0
+     */
     function contains(address[] memory A, address a) internal pure returns (bool) {
         (, bool isIn) = indexOf(A, a);
         return isIn;
     }
 
     /**
-    * Returns true if there are 2 elements that are the same in an array
-    * @param A The input array to search
-    * @return Returns boolean for the first occurrence of a duplicate
-    */
-    function hasDuplicate(address[] memory A) internal pure returns(bool) {
+     * Returns true if there are 2 elements that are the same in an array
+     * @param A The input array to search
+     * @return Returns boolean for the first occurrence of a duplicate
+     */
+    function hasDuplicate(address[] memory A) internal pure returns (bool) {
         require(A.length > 0, "A is empty");
 
         for (uint256 i = 0; i < A.length - 1; i++) {
@@ -1088,11 +1084,7 @@ library AddressArrayUtils {
      * @param a The address to remove
      * @return Returns the array with the object removed.
      */
-    function remove(address[] memory A, address a)
-    internal
-    pure
-    returns (address[] memory)
-    {
+    function remove(address[] memory A, address a) internal pure returns (address[] memory) {
         (uint256 index, bool isIn) = indexOf(A, a);
         if (!isIn) {
             revert("Address not in array.");
@@ -1106,30 +1098,24 @@ library AddressArrayUtils {
      * @param A The input array to search
      * @param a The address to remove
      */
-    function removeStorage(address[] storage A, address a)
-    internal
-    {
+    function removeStorage(address[] storage A, address a) internal {
         (uint256 index, bool isIn) = indexOf(A, a);
         if (!isIn) {
             revert("Address not in array.");
         } else {
             uint256 lastIndex = A.length - 1; // If the array would be empty, the previous line would throw, so no underflow here
-            if (index != lastIndex) { A[index] = A[lastIndex]; }
+            if (index != lastIndex) A[index] = A[lastIndex];
             A.pop();
         }
     }
 
     /**
-    * Removes specified index from array
-    * @param A The input array to search
-    * @param index The index to remove
-    * @return Returns the new array and the removed entry
-    */
-    function pop(address[] memory A, uint256 index)
-    internal
-    pure
-    returns (address[] memory, address)
-    {
+     * Removes specified index from array
+     * @param A The input array to search
+     * @param index The index to remove
+     * @return Returns the new array and the removed entry
+     */
+    function pop(address[] memory A, uint256 index) internal pure returns (address[] memory, address) {
         uint256 length = A.length;
         require(index < A.length, "Index must be < A length");
         address[] memory newAddresses = new address[](length - 1);
@@ -1168,7 +1154,7 @@ library AddressArrayUtils {
      * @param A         Array of addresses
      * @param B         Array of uint
      */
-    function validatePairsWithArray(address[] memory A, uint[] memory B) internal pure {
+    function validatePairsWithArray(address[] memory A, uint256[] memory B) internal pure {
         require(A.length == B.length, "Array length mismatch");
         _validateLengthAndUniqueness(A);
     }
@@ -1232,7 +1218,6 @@ library AddressArrayUtils {
     }
 }
 
-
 // File contracts/interfaces/IController.sol
 
 /*
@@ -1255,14 +1240,13 @@ pragma solidity 0.6.10;
 
 interface IController {
     function addCK(address _ckToken) external;
-    function feeRecipient() external view returns(address);
-    function getModuleFee(address _module, uint256 _feeType) external view returns(uint256);
-    function isModule(address _module) external view returns(bool);
-    function isCK(address _ckToken) external view returns(bool);
+    function feeRecipient() external view returns (address);
+    function getModuleFee(address _module, uint256 _feeType) external view returns (uint256);
+    function isModule(address _module) external view returns (bool);
+    function isCK(address _ckToken) external view returns (bool);
     function isSystemContract(address _contractAddress) external view returns (bool);
-    function resourceId(uint256 _id) external view returns(address);
+    function resourceId(uint256 _id) external view returns (address);
 }
-
 
 // File contracts/interfaces/ICKToken.sol
 
@@ -1292,7 +1276,6 @@ pragma experimental "ABIEncoderV2";
  * Interface for operating with CKTokens.
  */
 interface ICKToken is IERC20 {
-
     /* ============ Enums ============ */
 
     enum ModuleState {
@@ -1350,7 +1333,6 @@ interface ICKToken is IERC20 {
         bytes data;
     }
 
-
     /* ============ Functions ============ */
 
     function addComponent(address _component) external;
@@ -1361,7 +1343,7 @@ interface ICKToken is IERC20 {
     function editExternalPositionUnit(address _component, address _positionModule, int256 _realUnit) external;
     function editExternalPositionData(address _component, address _positionModule, bytes calldata _data) external;
 
-    function invoke(address _target, uint256 _value, bytes calldata _data) external returns(bytes memory);
+    function invoke(address _target, uint256 _value, bytes calldata _data) external returns (bytes memory);
 
     function editPositionMultiplier(int256 _newMultiplier) external;
 
@@ -1381,23 +1363,22 @@ interface ICKToken is IERC20 {
     function moduleStates(address _module) external view returns (ModuleState);
     function getModules() external view returns (address[] memory);
 
-    function getDefaultPositionRealUnit(address _component) external view returns(int256);
-    function getExternalPositionRealUnit(address _component, address _positionModule) external view returns(int256);
-    function getComponents() external view returns(address[] memory);
-    function getExternalPositionModules(address _component) external view returns(address[] memory);
-    function getExternalPositionData(address _component, address _positionModule) external view returns(bytes memory);
-    function isExternalPositionModule(address _component, address _module) external view returns(bool);
-    function isComponent(address _component) external view returns(bool);
+    function getDefaultPositionRealUnit(address _component) external view returns (int256);
+    function getExternalPositionRealUnit(address _component, address _positionModule) external view returns (int256);
+    function getComponents() external view returns (address[] memory);
+    function getExternalPositionModules(address _component) external view returns (address[] memory);
+    function getExternalPositionData(address _component, address _positionModule) external view returns (bytes memory);
+    function isExternalPositionModule(address _component, address _module) external view returns (bool);
+    function isComponent(address _component) external view returns (bool);
 
     function positionMultiplier() external view returns (int256);
     function getPositions() external view returns (Position[] memory);
-    function getTotalComponentRealUnits(address _component) external view returns(int256);
+    function getTotalComponentRealUnits(address _component) external view returns (int256);
 
-    function isInitializedModule(address _module) external view returns(bool);
-    function isPendingModule(address _module) external view returns(bool);
+    function isInitializedModule(address _module) external view returns (bool);
+    function isPendingModule(address _module) external view returns (bool);
     function isLocked() external view returns (bool);
 }
-
 
 // File contracts/interfaces/IManagerIssuanceHook.sol
 
@@ -1423,7 +1404,6 @@ interface IManagerIssuanceHook {
     function invokePreIssueHook(ICKToken _ckToken, uint256 _issueQuantity, address _sender, address _to) external;
     function invokePreRedeemHook(ICKToken _ckToken, uint256 _redeemQuantity, address _sender, address _to) external;
 }
-
 
 // File contracts/interfaces/IModuleIssuanceHook.sol
 
@@ -1451,25 +1431,14 @@ pragma solidity 0.6.10;
  *        issue hooks
  */
 interface IModuleIssuanceHook {
-
     function moduleIssueHook(ICKToken _ckToken, uint256 _ckTokenQuantity) external;
     function moduleRedeemHook(ICKToken _ckToken, uint256 _ckTokenQuantity) external;
 
-    function componentIssueHook(
-        ICKToken _ckToken,
-        uint256 _ckTokenQuantity,
-        IERC20 _component,
-        bool _isEquity
-    ) external;
+    function componentIssueHook(ICKToken _ckToken, uint256 _ckTokenQuantity, IERC20 _component, bool _isEquity) external;
 
-    function componentRedeemHook(
-        ICKToken _ckToken,
-        uint256 _ckTokenQuantity,
-        IERC20 _component,
-        bool _isEquity
-    ) external;
+    function componentRedeemHook(ICKToken _ckToken, uint256 _ckTokenQuantity, IERC20 _component, bool _isEquity)
+        external;
 }
-
 
 // File contracts/protocol/lib/Invoke.sol
 
@@ -1492,7 +1461,6 @@ interface IModuleIssuanceHook {
 
 pragma solidity 0.6.10;
 
-
 /**
  * @title Invoke
  * @author Cook Finance
@@ -1512,14 +1480,7 @@ library Invoke {
      * @param _spender         The account allowed to spend the CKToken's balance
      * @param _quantity        The quantity of allowance to allow
      */
-    function invokeApprove(
-        ICKToken _ckToken,
-        address _token,
-        address _spender,
-        uint256 _quantity
-    )
-    internal
-    {
+    function invokeApprove(ICKToken _ckToken, address _token, address _spender, uint256 _quantity) internal {
         bytes memory callData = abi.encodeWithSignature("approve(address,uint256)", _spender, _quantity);
         _ckToken.invoke(_token, 0, callData);
     }
@@ -1532,14 +1493,7 @@ library Invoke {
      * @param _to              The recipient account
      * @param _quantity        The quantity to transfer
      */
-    function invokeTransfer(
-        ICKToken _ckToken,
-        address _token,
-        address _to,
-        uint256 _quantity
-    )
-    internal
-    {
+    function invokeTransfer(ICKToken _ckToken, address _token, address _to, uint256 _quantity) internal {
         if (_quantity > 0) {
             bytes memory callData = abi.encodeWithSignature("transfer(address,uint256)", _to, _quantity);
             _ckToken.invoke(_token, 0, callData);
@@ -1555,14 +1509,7 @@ library Invoke {
      * @param _to              The recipient account
      * @param _quantity        The quantity to transfer
      */
-    function strictInvokeTransfer(
-        ICKToken _ckToken,
-        address _token,
-        address _to,
-        uint256 _quantity
-    )
-    internal
-    {
+    function strictInvokeTransfer(ICKToken _ckToken, address _token, address _to, uint256 _quantity) internal {
         if (_quantity > 0) {
             // Retrieve current balance of token for the CKToken
             uint256 existingBalance = IERC20(_token).balanceOf(address(_ckToken));
@@ -1573,10 +1520,7 @@ library Invoke {
             uint256 newBalance = IERC20(_token).balanceOf(address(_ckToken));
 
             // Verify only the transfer quantity is subtracted
-            require(
-                newBalance == existingBalance.sub(_quantity),
-                "Invalid post transfer balance"
-            );
+            require(newBalance == existingBalance.sub(_quantity), "Invalid post transfer balance");
         }
     }
 
@@ -1604,7 +1548,6 @@ library Invoke {
         _ckToken.invoke(_weth, _quantity, callData);
     }
 }
-
 
 // File contracts/interfaces/external/IWETH.sol
 
@@ -1634,17 +1577,11 @@ pragma solidity 0.6.10;
  * Interface for Wrapped Ether. This interface allows for interaction for wrapped ether's deposit and withdrawal
  * functionality.
  */
-interface IWETH is IERC20{
-    function deposit()
-    external
-    payable;
+interface IWETH is IERC20 {
+    function deposit() external payable;
 
-    function withdraw(
-        uint256 wad
-    )
-    external;
+    function withdraw(uint256 wad) external;
 }
-
 
 // File contracts/interfaces/IWrapAdapter.sol
 
@@ -1666,39 +1603,42 @@ interface IWETH is IERC20{
 */
 pragma solidity 0.6.10;
 
-
 /**
  * @title IWrapAdapter
  * @author Cook Finance
  *
  */
 interface IWrapAdapter {
-
     function ETH_TOKEN_ADDRESS() external view returns (address);
 
-    function getWrapCallData(
+    function getWrapCallData(address _underlyingToken, address _wrappedToken, uint256 _underlyingUnits)
+        external
+        view
+        returns (address _subject, uint256 _value, bytes memory _calldata);
+
+    function getUnwrapCallData(address _underlyingToken, address _wrappedToken, uint256 _wrappedTokenUnits)
+        external
+        view
+        returns (address _subject, uint256 _value, bytes memory _calldata);
+
+    function getSpenderAddress(address _underlyingToken, address _wrappedToken) external view returns (address);
+
+    function getWrapSpenderAddress(address _underlyingToken, address _wrappedToken) external view returns (address);
+
+    function getUnwrapSpenderAddress(address _underlyingToken, address _wrappedToken) external view returns (address);
+
+    function getDepositUnderlyingTokenAmount(
         address _underlyingToken,
         address _wrappedToken,
-        uint256 _underlyingUnits
-    ) external view returns (address _subject, uint256 _value, bytes memory _calldata);
+        uint256 _wrappedTokenAmount
+    ) external view returns (uint256);
 
-    function getUnwrapCallData(
+    function getWithdrawUnderlyingTokenAmount(
         address _underlyingToken,
         address _wrappedToken,
-        uint256 _wrappedTokenUnits
-    ) external view returns (address _subject, uint256 _value, bytes memory _calldata);
-
-    function getSpenderAddress(address _underlyingToken, address _wrappedToken) external view returns(address);
-
-    function getWrapSpenderAddress(address _underlyingToken, address _wrappedToken) external view returns(address);
-
-    function getUnwrapSpenderAddress(address _underlyingToken, address _wrappedToken) external view returns(address);
-
-    function getDepositUnderlyingTokenAmount(address _underlyingToken, address _wrappedToken, uint256 _wrappedTokenAmount) external view returns(uint256);
-
-    function getWithdrawUnderlyingTokenAmount(address _underlyingToken, address _wrappedToken, uint256 _wrappedTokenAmount) external view returns(uint256);
+        uint256 _wrappedTokenAmount
+    ) external view returns (uint256);
 }
-
 
 // File @openzeppelin/contracts/utils/Address.sol@v3.3.0
 pragma solidity >=0.6.2 <0.8.0;
@@ -1755,7 +1695,7 @@ library Address {
         require(address(this).balance >= amount, "Address: insufficient balance");
 
         // solhint-disable-next-line avoid-low-level-calls, avoid-call-value
-        (bool success, ) = recipient.call{ value: amount }("");
+        (bool success,) = recipient.call{value: amount}("");
         require(success, "Address: unable to send value, recipient may have reverted");
     }
 
@@ -1787,7 +1727,10 @@ library Address {
      *
      * _Available since v3.1._
      */
-    function functionCall(address target, bytes memory data, string memory errorMessage) internal returns (bytes memory) {
+    function functionCall(address target, bytes memory data, string memory errorMessage)
+        internal
+        returns (bytes memory)
+    {
         return functionCallWithValue(target, data, 0, errorMessage);
     }
 
@@ -1812,12 +1755,15 @@ library Address {
      *
      * _Available since v3.1._
      */
-    function functionCallWithValue(address target, bytes memory data, uint256 value, string memory errorMessage) internal returns (bytes memory) {
+    function functionCallWithValue(address target, bytes memory data, uint256 value, string memory errorMessage)
+        internal
+        returns (bytes memory)
+    {
         require(address(this).balance >= value, "Address: insufficient balance for call");
         require(isContract(target), "Address: call to non-contract");
 
         // solhint-disable-next-line avoid-low-level-calls
-        (bool success, bytes memory returndata) = target.call{ value: value }(data);
+        (bool success, bytes memory returndata) = target.call{value: value}(data);
         return _verifyCallResult(success, returndata, errorMessage);
     }
 
@@ -1837,7 +1783,11 @@ library Address {
      *
      * _Available since v3.3._
      */
-    function functionStaticCall(address target, bytes memory data, string memory errorMessage) internal view returns (bytes memory) {
+    function functionStaticCall(address target, bytes memory data, string memory errorMessage)
+        internal
+        view
+        returns (bytes memory)
+    {
         require(isContract(target), "Address: static call to non-contract");
 
         // solhint-disable-next-line avoid-low-level-calls
@@ -1845,7 +1795,11 @@ library Address {
         return _verifyCallResult(success, returndata, errorMessage);
     }
 
-    function _verifyCallResult(bool success, bytes memory returndata, string memory errorMessage) private pure returns(bytes memory) {
+    function _verifyCallResult(bool success, bytes memory returndata, string memory errorMessage)
+        private
+        pure
+        returns (bytes memory)
+    {
         if (success) {
             return returndata;
         } else {
@@ -1865,11 +1819,8 @@ library Address {
     }
 }
 
-
 // File @openzeppelin/contracts/token/ERC20/SafeERC20.sol@v3.3.0
 pragma solidity >=0.6.0 <0.8.0;
-
-
 
 /**
  * @title SafeERC20
@@ -1904,7 +1855,8 @@ library SafeERC20 {
         // or when resetting it to zero. To increase and decrease it, use
         // 'safeIncreaseAllowance' and 'safeDecreaseAllowance'
         // solhint-disable-next-line max-line-length
-        require((value == 0) || (token.allowance(address(this), spender) == 0),
+        require(
+            (value == 0) || (token.allowance(address(this), spender) == 0),
             "SafeERC20: approve from non-zero to non-zero allowance"
         );
         _callOptionalReturn(token, abi.encodeWithSelector(token.approve.selector, spender, value));
@@ -1916,7 +1868,8 @@ library SafeERC20 {
     }
 
     function safeDecreaseAllowance(IERC20 token, address spender, uint256 value) internal {
-        uint256 newAllowance = token.allowance(address(this), spender).sub(value, "SafeERC20: decreased allowance below zero");
+        uint256 newAllowance =
+            token.allowance(address(this), spender).sub(value, "SafeERC20: decreased allowance below zero");
         _callOptionalReturn(token, abi.encodeWithSelector(token.approve.selector, spender, newAllowance));
     }
 
@@ -1932,13 +1885,13 @@ library SafeERC20 {
         // the target address contains contract code and also asserts for success in the low-level call.
 
         bytes memory returndata = address(token).functionCall(data, "SafeERC20: low-level call failed");
-        if (returndata.length > 0) { // Return data is optional
-            // solhint-disable-next-line max-line-length
+        if (returndata.length > 0) {
+            // Return data is optional
+        // solhint-disable-next-line max-line-length
             require(abi.decode(returndata, (bool)), "SafeERC20: ERC20 operation did not succeed");
         }
     }
 }
-
 
 // File contracts/lib/ExplicitERC20.sol
 
@@ -1961,8 +1914,6 @@ library SafeERC20 {
 
 pragma solidity 0.6.10;
 
-
-
 /**
  * @title ExplicitERC20
  * @author Cook Finance
@@ -1981,36 +1932,20 @@ library ExplicitERC20 {
      * @param _to              The account to transfer tokens to
      * @param _quantity        The quantity to transfer
      */
-    function transferFrom(
-        IERC20 _token,
-        address _from,
-        address _to,
-        uint256 _quantity
-    )
-    internal
-    {
+    function transferFrom(IERC20 _token, address _from, address _to, uint256 _quantity) internal {
         // Call specified ERC20 contract to transfer tokens (via proxy).
         if (_quantity > 0) {
             uint256 existingBalance = _token.balanceOf(_to);
 
-            SafeERC20.safeTransferFrom(
-                _token,
-                _from,
-                _to,
-                _quantity
-            );
+            SafeERC20.safeTransferFrom(_token, _from, _to, _quantity);
 
             uint256 newBalance = _token.balanceOf(_to);
 
             // Verify transfer quantity is reflected in balance
-            require(
-                newBalance == existingBalance.add(_quantity),
-                "Invalid post transfer balance"
-            );
+            require(newBalance == existingBalance.add(_quantity), "Invalid post transfer balance");
         }
     }
 }
-
 
 // File contracts/interfaces/IModule.sol
 
@@ -2032,7 +1967,6 @@ library ExplicitERC20 {
 */
 pragma solidity 0.6.10;
 
-
 /**
  * @title IModule
  * @author Cook Finance
@@ -2046,7 +1980,6 @@ interface IModule {
      */
     function removeModule() external;
 }
-
 
 // File contracts/lib/PreciseUnitMath.sol
 
@@ -2069,7 +2002,6 @@ interface IModule {
 
 pragma solidity 0.6.10;
 
-
 /**
  * @title PreciseUnitMath
  * @author Cook Finance
@@ -2085,14 +2017,14 @@ library PreciseUnitMath {
     using SignedSafeMath for int256;
 
     // The number One in precise units.
-    uint256 constant internal PRECISE_UNIT = 10 ** 18;
-    int256 constant internal PRECISE_UNIT_INT = 10 ** 18;
+    uint256 internal constant PRECISE_UNIT = 10 ** 18;
+    int256 internal constant PRECISE_UNIT_INT = 10 ** 18;
 
     // Max unsigned integer value
-    uint256 constant internal MAX_UINT_256 = type(uint256).max;
+    uint256 internal constant MAX_UINT_256 = type(uint256).max;
     // Max and min signed integer value
-    int256 constant internal MAX_INT_256 = type(int256).max;
-    int256 constant internal MIN_INT_256 = type(int256).min;
+    int256 internal constant MAX_INT_256 = type(int256).max;
+    int256 internal constant MIN_INT_256 = type(int256).min;
 
     /**
      * @dev Getter function since constants can't be read directly from libraries.
@@ -2163,7 +2095,6 @@ library PreciseUnitMath {
         return a.mul(PRECISE_UNIT).div(b);
     }
 
-
     /**
      * @dev Divides value a by value b (result is rounded towards 0).
      */
@@ -2212,20 +2143,13 @@ library PreciseUnitMath {
     }
 
     /**
-    * @dev Performs the power on a specified value, reverts on overflow.
-    */
-    function safePower(
-        uint256 a,
-        uint256 pow
-    )
-    internal
-    pure
-    returns (uint256)
-    {
+     * @dev Performs the power on a specified value, reverts on overflow.
+     */
+    function safePower(uint256 a, uint256 pow) internal pure returns (uint256) {
         require(a > 0, "Value must be positive");
 
         uint256 result = 1;
-        for (uint256 i = 0; i < pow; i++){
+        for (uint256 i = 0; i < pow; i++) {
             uint256 previousResult = result;
 
             // Using safemath multiplication prevents overflows
@@ -2242,7 +2166,6 @@ library PreciseUnitMath {
         return a <= b.add(range) && a >= b.sub(range);
     }
 }
-
 
 // File contracts/protocol/lib/Position.sol
 
@@ -2265,7 +2188,6 @@ library PreciseUnitMath {
 
 pragma solidity 0.6.10;
 
-
 /**
  * @title Position
  * @author Cook Finance
@@ -2287,36 +2209,35 @@ library Position {
     /**
      * Returns whether the CKToken has a default position for a given component (if the real unit is > 0)
      */
-    function hasDefaultPosition(ICKToken _ckToken, address _component) internal view returns(bool) {
+    function hasDefaultPosition(ICKToken _ckToken, address _component) internal view returns (bool) {
         return _ckToken.getDefaultPositionRealUnit(_component) > 0;
     }
 
     /**
      * Returns whether the CKToken has an external position for a given component (if # of position modules is > 0)
      */
-    function hasExternalPosition(ICKToken _ckToken, address _component) internal view returns(bool) {
+    function hasExternalPosition(ICKToken _ckToken, address _component) internal view returns (bool) {
         return _ckToken.getExternalPositionModules(_component).length > 0;
     }
 
     /**
      * Returns whether the CKToken component default position real unit is greater than or equal to units passed in.
      */
-    function hasSufficientDefaultUnits(ICKToken _ckToken, address _component, uint256 _unit) internal view returns(bool) {
+    function hasSufficientDefaultUnits(ICKToken _ckToken, address _component, uint256 _unit)
+        internal
+        view
+        returns (bool)
+    {
         return _ckToken.getDefaultPositionRealUnit(_component) >= _unit.toInt256();
     }
 
     /**
      * Returns whether the CKToken component external position is greater than or equal to the real units passed in.
      */
-    function hasSufficientExternalUnits(
-        ICKToken _ckToken,
-        address _component,
-        address _positionModule,
-        uint256 _unit
-    )
-    internal
-    view
-    returns(bool)
+    function hasSufficientExternalUnits(ICKToken _ckToken, address _component, address _positionModule, uint256 _unit)
+        internal
+        view
+        returns (bool)
     {
         return _ckToken.getExternalPositionRealUnit(_component, _positionModule) >= _unit.toInt256();
     }
@@ -2369,9 +2290,7 @@ library Position {
         address _module,
         int256 _newUnit,
         bytes memory _data
-    )
-    internal
-    {
+    ) internal {
         if (_newUnit != 0) {
             if (!_ckToken.isComponent(_component)) {
                 _ckToken.addComponent(_component);
@@ -2425,7 +2344,7 @@ library Position {
      * @param _component          Address of the component
      * @return                    Notional tracked balance
      */
-    function getDefaultTrackedBalance(ICKToken _ckToken, address _component) internal view returns(uint256) {
+    function getDefaultTrackedBalance(ICKToken _ckToken, address _component) internal view returns (uint256) {
         int256 positionUnit = _ckToken.getDefaultPositionRealUnit(_component);
         return _ckToken.totalSupply().preciseMul(positionUnit.toUint256());
     }
@@ -2446,20 +2365,14 @@ library Position {
         address _component,
         uint256 _ckTotalSupply,
         uint256 _componentPreviousBalance
-    )
-    internal
-    returns(uint256, uint256, uint256)
-    {
+    ) internal returns (uint256, uint256, uint256) {
         uint256 currentBalance = IERC20(_component).balanceOf(address(_ckToken));
         uint256 positionUnit = _ckToken.getDefaultPositionRealUnit(_component).toUint256();
 
         uint256 newTokenUnit;
         if (currentBalance > 0) {
             newTokenUnit = calculateDefaultEditPositionUnit(
-                _ckTotalSupply,
-                _componentPreviousBalance,
-                currentBalance,
-                positionUnit
+                _ckTotalSupply, _componentPreviousBalance, currentBalance, positionUnit
             );
         } else {
             newTokenUnit = 0;
@@ -2485,17 +2398,12 @@ library Position {
         uint256 _preTotalNotional,
         uint256 _postTotalNotional,
         uint256 _prePositionUnit
-    )
-    internal
-    pure
-    returns (uint256)
-    {
+    ) internal pure returns (uint256) {
         // If pre action total notional amount is greater then subtract post action total notional and calculate new position units
         uint256 airdroppedAmount = _preTotalNotional.sub(_prePositionUnit.preciseMul(_ckTokenSupply));
         return _postTotalNotional.sub(airdroppedAmount).preciseDiv(_ckTokenSupply);
     }
 }
-
 
 // File contracts/interfaces/IIntegrationRegistry.sol
 
@@ -2519,11 +2427,10 @@ pragma solidity 0.6.10;
 
 interface IIntegrationRegistry {
     function addIntegration(address _module, string memory _id, address _wrapper) external;
-    function getIntegrationAdapter(address _module, string memory _id) external view returns(address);
-    function getIntegrationAdapterWithHash(address _module, bytes32 _id) external view returns(address);
-    function isValidIntegration(address _module, string memory _id) external view returns(bool);
+    function getIntegrationAdapter(address _module, string memory _id) external view returns (address);
+    function getIntegrationAdapterWithHash(address _module, bytes32 _id) external view returns (address);
+    function isValidIntegration(address _module, string memory _id) external view returns (bool);
 }
-
 
 // File contracts/interfaces/IPriceOracle.sol
 
@@ -2552,13 +2459,11 @@ pragma solidity 0.6.10;
  * Interface for interacting with PriceOracle
  */
 interface IPriceOracle {
-
     /* ============ Functions ============ */
 
     function getPrice(address _assetOne, address _assetTwo) external view returns (uint256);
     function masterQuoteAsset() external view returns (address);
 }
-
 
 // File contracts/interfaces/ICKValuer.sol
 
@@ -2584,7 +2489,6 @@ interface ICKValuer {
     function calculateCKTokenValuation(ICKToken _ckToken, address _quoteAsset) external view returns (uint256);
 }
 
-
 // File contracts/protocol/lib/ResourceIdentifier.sol
 
 /*
@@ -2606,9 +2510,6 @@ interface ICKValuer {
 
 pragma solidity 0.6.10;
 
-
-
-
 /**
  * @title ResourceIdentifier
  * @author Cook Finance
@@ -2616,13 +2517,12 @@ pragma solidity 0.6.10;
  * A collection of utility functions to fetch information related to Resource contracts in the system
  */
 library ResourceIdentifier {
-
     // IntegrationRegistry will always be resource ID 0 in the system
-    uint256 constant internal INTEGRATION_REGISTRY_RESOURCE_ID = 0;
+    uint256 internal constant INTEGRATION_REGISTRY_RESOURCE_ID = 0;
     // PriceOracle will always be resource ID 1 in the system
-    uint256 constant internal PRICE_ORACLE_RESOURCE_ID = 1;
+    uint256 internal constant PRICE_ORACLE_RESOURCE_ID = 1;
     // CKValuer resource will always be resource ID 2 in the system
-    uint256 constant internal CK_VALUER_RESOURCE_ID = 2;
+    uint256 internal constant CK_VALUER_RESOURCE_ID = 2;
 
     /* ============ Internal ============ */
 
@@ -2649,7 +2549,6 @@ library ResourceIdentifier {
     }
 }
 
-
 // File contracts/protocol/lib/ModuleBase.sol
 
 /*
@@ -2670,17 +2569,6 @@ library ResourceIdentifier {
 */
 
 pragma solidity 0.6.10;
-
-
-
-
-
-
-
-
-
-
-
 
 /**
  * @title ModuleBase
@@ -2766,7 +2654,7 @@ abstract contract ModuleBase is IModule {
     /**
      * Gets the integration for the module with the passed in name. Validates that the address is not empty
      */
-    function getAndValidateAdapter(string memory _integrationName) internal view returns(address) {
+    function getAndValidateAdapter(string memory _integrationName) internal view returns (address) {
         bytes32 integrationHash = getNameHash(_integrationName);
         return getAndValidateAdapterWithHash(integrationHash);
     }
@@ -2774,11 +2662,9 @@ abstract contract ModuleBase is IModule {
     /**
      * Gets the integration for the module with the passed in hash. Validates that the address is not empty
      */
-    function getAndValidateAdapterWithHash(bytes32 _integrationHash) internal view returns(address) {
-        address adapter = controller.getIntegrationRegistry().getIntegrationAdapterWithHash(
-            address(this),
-            _integrationHash
-        );
+    function getAndValidateAdapterWithHash(bytes32 _integrationHash) internal view returns (address) {
+        address adapter =
+            controller.getIntegrationRegistry().getIntegrationAdapterWithHash(address(this), _integrationHash);
 
         require(adapter != address(0), "Must be valid adapter");
         return adapter;
@@ -2787,7 +2673,7 @@ abstract contract ModuleBase is IModule {
     /**
      * Gets the total fee for this module of the passed in index (fee % * quantity)
      */
-    function getModuleFee(uint256 _feeIndex, uint256 _quantity) internal view returns(uint256) {
+    function getModuleFee(uint256 _feeIndex, uint256 _quantity) internal view returns (uint256) {
         uint256 feePercentage = controller.getModuleFee(address(this), _feeIndex);
         return _quantity.preciseMul(feePercentage);
     }
@@ -2804,14 +2690,14 @@ abstract contract ModuleBase is IModule {
     /**
      * Returns true if the module is in process of initialization on the CKToken
      */
-    function isCKPendingInitialization(ICKToken _ckToken) internal view returns(bool) {
+    function isCKPendingInitialization(ICKToken _ckToken) internal view returns (bool) {
         return _ckToken.isPendingModule(address(this));
     }
 
     /**
      * Returns true if the address is the CKToken's manager
      */
-    function isCKManager(ICKToken _ckToken, address _toCheck) internal view returns(bool) {
+    function isCKManager(ICKToken _ckToken, address _toCheck) internal view returns (bool) {
         return _ckToken.manager() == _toCheck;
     }
 
@@ -2819,15 +2705,14 @@ abstract contract ModuleBase is IModule {
      * Returns true if CKToken must be enabled on the controller
      * and module is registered on the CKToken
      */
-    function isCKValidAndInitialized(ICKToken _ckToken) internal view returns(bool) {
-        return controller.isCK(address(_ckToken)) &&
-                            _ckToken.isInitializedModule(address(this));
+    function isCKValidAndInitialized(ICKToken _ckToken) internal view returns (bool) {
+        return controller.isCK(address(_ckToken)) && _ckToken.isInitializedModule(address(this));
     }
 
     /**
      * Hashes the string and returns a bytes32 value
      */
-    function getNameHash(string memory _name) internal pure returns(bytes32) {
+    function getNameHash(string memory _name) internal pure returns (bytes32) {
         return keccak256(bytes(_name));
     }
 
@@ -2861,15 +2746,9 @@ abstract contract ModuleBase is IModule {
      * Caller must be initialized module and module must be enabled on the controller
      */
     function _validateOnlyModule(ICKToken _ckToken) internal view {
-        require(
-            _ckToken.moduleStates(msg.sender) == ICKToken.ModuleState.INITIALIZED,
-            "Only the module can call"
-        );
+        require(_ckToken.moduleStates(msg.sender) == ICKToken.ModuleState.INITIALIZED, "Only the module can call");
 
-        require(
-            controller.isModule(msg.sender),
-            "Module must be enabled on controller"
-        );
+        require(controller.isModule(msg.sender), "Module must be enabled on controller");
     }
 
     /**
@@ -2880,7 +2759,6 @@ abstract contract ModuleBase is IModule {
         require(isCKPendingInitialization(_ckToken), "Must be pending initialization");
     }
 }
-
 
 // File contracts/interfaces/IExchangeAdapter.sol
 
@@ -2903,7 +2781,7 @@ abstract contract ModuleBase is IModule {
 pragma solidity 0.6.10;
 
 interface IExchangeAdapter {
-    function getSpender() external view returns(address);
+    function getSpender() external view returns (address);
     function getTradeCalldata(
         address _fromToken,
         address _toToken,
@@ -2911,25 +2789,19 @@ interface IExchangeAdapter {
         uint256 _fromQuantity,
         uint256 _minToQuantity,
         bytes memory _data
-    )
-    external
-    view
-    returns (address, uint256, bytes memory);
+    ) external view returns (address, uint256, bytes memory);
     function getMinAmountsOut(uint256 amountIn, address[] memory path) external view returns (uint256[] memory amounts);
     function getMaxAmountsIn(uint256 amountOut, address[] memory path) external view returns (uint256[] memory amounts);
     function generateDataParam(address[] memory path, bool _isSendTokenFixed) external pure returns (bytes memory);
 }
 
-
 // File contracts/interfaces/external/IYieldYakStrategyV2.sol
 pragma solidity 0.6.10;
-
 
 /**
  * @title Yield Yak Strategy2 Interface
  */
 interface IYieldYakStrategyV2 {
-
     // function depositToken() external view returns (IERC20);
     // function rewardToken() external view returns (address);
     // function devAddr() external view returns (address);
@@ -2945,12 +2817,11 @@ interface IYieldYakStrategyV2 {
     // function BIPS_DIVISOR() external view returns (uint);
     // function MAX_UINT() external view returns (uint);
 
-    function deposit(uint amount) external;
-    function withdraw(uint amount) external;
-    function getSharesForDepositTokens(uint amount) external view returns (uint);
-    function getDepositTokensForShares(uint amount) external view returns (uint);
+    function deposit(uint256 amount) external;
+    function withdraw(uint256 amount) external;
+    function getSharesForDepositTokens(uint256 amount) external view returns (uint256);
+    function getDepositTokensForShares(uint256 amount) external view returns (uint256);
 }
-
 
 // File contracts/protocol/modules/IssuanceModuleV2.sol
 
@@ -2973,7 +2844,6 @@ interface IYieldYakStrategyV2 {
 
 pragma solidity 0.6.10;
 
-
 /**
  * @title IssuanceModule
  * @author Cook Finance
@@ -2995,28 +2865,37 @@ contract IssuanceModuleV2 is Ownable, ModuleBase, ReentrancyGuard {
 
     /* ============ Struct ============ */
     struct WrapExecutionParams {
-        string wrapAdapterName;     // Wrap adapter name
-        address underlyingToken;    // Underlying token address of the wrapped token, ex. WETH is the underlying token of the aETH. This will be passed to wrap adapter to get wrap/unwrap call data
+        string wrapAdapterName; // Wrap adapter name
+        address underlyingToken; // Underlying token address of the wrapped token, ex. WETH is the underlying token of the aETH. This will be passed to wrap adapter to get wrap/unwrap call data
     }
 
     struct TradeInfo {
-        ICKToken ckToken;                               // Instance of CKToken
-        IExchangeAdapter exchangeAdapter;               // Instance of exchange adapter contract
-        address sendToken;                              // Address of token being sold
-        address receiveToken;                           // Address of token being bought
-        uint256 totalSendQuantity;                      // Total quantity of sold token
-        uint256 totalReceiveQuantity;                   // Total quantity of token to receive back
-        uint256 preTradeSendTokenBalance;               // Total initial balance of token being sold
-        uint256 preTradeReceiveTokenBalance;            // Total initial balance of token being bought
-        bytes data;                                     // Arbitrary data
+        ICKToken ckToken; // Instance of CKToken
+        IExchangeAdapter exchangeAdapter; // Instance of exchange adapter contract
+        address sendToken; // Address of token being sold
+        address receiveToken; // Address of token being bought
+        uint256 totalSendQuantity; // Total quantity of sold token
+        uint256 totalReceiveQuantity; // Total quantity of token to receive back
+        uint256 preTradeSendTokenBalance; // Total initial balance of token being sold
+        uint256 preTradeReceiveTokenBalance; // Total initial balance of token being bought
+        bytes data; // Arbitrary data
     }
 
     /* ============ Events ============ */
 
-    event CKTokenIssued(address indexed _ckToken, address _issuer, address _to, address _hookContract, uint256 _ckMintQuantity, uint256 _issuedTokenReturned);
+    event CKTokenIssued(
+        address indexed _ckToken,
+        address _issuer,
+        address _to,
+        address _hookContract,
+        uint256 _ckMintQuantity,
+        uint256 _issuedTokenReturned
+    );
     event CKTokenRedeemed(address indexed _ckToken, address _redeemer, address _to, uint256 _quantity);
     event AssetExchangeExecutionParamUpdated(address indexed _component, string _newExchangeName);
-    event AssetWrapExecutionParamUpdated(address indexed _component, string _newWrapAdapterName, address _newUnderlyingToken);
+    event AssetWrapExecutionParamUpdated(
+        address indexed _component, string _newWrapAdapterName, address _newUnderlyingToken
+    );
     event ComponentExchanged(
         ICKToken indexed _ckToken,
         address indexed _sendToken,
@@ -3074,35 +2953,23 @@ contract IssuanceModuleV2 is Ownable, ModuleBase, ReentrancyGuard {
      * @param _to                   Address to mint CKToken to
      * @param _returnDust           If to return left components
      */
-    function issueWithEther2 (
+    function issueWithEther2(
         ICKToken _ckToken,
         uint256 _minCkTokenRec,
         address[] memory _midTokens,
         uint256[] memory _weightings,
         address _to,
         bool _returnDust
-    )
-    external
-    payable
-    nonReentrant
-    onlyValidAndInitializedCK(_ckToken)
-    {
+    ) external payable nonReentrant onlyValidAndInitializedCK(_ckToken) {
         require(msg.value > 0, "Issue ether quantity must be > 0");
-        weth.deposit{ value: msg.value }();
+        weth.deposit{value: msg.value}();
         // Transfer the specified weth to ckToken
-        transferFrom(
-            weth,
-            address(this),
-            address(_ckToken),
-            msg.value
+        transferFrom(weth, address(this), address(_ckToken), msg.value);
+        uint256 issueTokenRemain = _issueWithSingleToken2(
+            _ckToken, address(weth), msg.value, _minCkTokenRec, _midTokens, _weightings, _to, _returnDust
         );
-        uint256 issueTokenRemain = _issueWithSingleToken2(_ckToken, address(weth), msg.value, _minCkTokenRec, _midTokens, _weightings, _to, _returnDust);
         // transfer the remaining weth to issuer
-        _ckToken.strictInvokeTransfer(
-            address(weth),
-            msg.sender,
-            issueTokenRemain
-        );
+        _ckToken.strictInvokeTransfer(address(weth), msg.sender, issueTokenRemain);
     }
 
     /**
@@ -3117,37 +2984,25 @@ contract IssuanceModuleV2 is Ownable, ModuleBase, ReentrancyGuard {
      * @param _to                   Address to mint CKToken to
      * @param _returnDust           If to return left components
      */
-    function issueWithSingleToken2 (
+    function issueWithSingleToken2(
         ICKToken _ckToken,
         address _issueToken,
         uint256 _issueTokenQuantity,
         uint256 _minCkTokenRec,
         address[] memory _midTokens,
-        uint256[] memory _weightings,  // percentage in 18 decimals and order should follow ckComponents get from a ck token
+        uint256[] memory _weightings, // percentage in 18 decimals and order should follow ckComponents get from a ck token
         address _to,
         bool _returnDust
-    )
-    external
-    nonReentrant
-    onlyValidAndInitializedCK(_ckToken)
-    {
+    ) external nonReentrant onlyValidAndInitializedCK(_ckToken) {
         require(_issueTokenQuantity > 0, "Issue token quantity must be > 0");
         // Transfer the specified issue token to ckToken
-        transferFrom(
-            IERC20(_issueToken),
-            msg.sender,
-            address(_ckToken),
-            _issueTokenQuantity
-        );
+        transferFrom(IERC20(_issueToken), msg.sender, address(_ckToken), _issueTokenQuantity);
 
-        uint256 issueTokenRemain = _issueWithSingleToken2(_ckToken, _issueToken, _issueTokenQuantity, _minCkTokenRec, _midTokens, _weightings, _to, _returnDust);
+        uint256 issueTokenRemain = _issueWithSingleToken2(
+            _ckToken, _issueToken, _issueTokenQuantity, _minCkTokenRec, _midTokens, _weightings, _to, _returnDust
+        );
         // transfer the remaining weth to issuer
-        _ckToken.strictInvokeTransfer(
-            address(_issueToken),
-            msg.sender,
-            issueTokenRemain
-        );
-
+        _ckToken.strictInvokeTransfer(address(_issueToken), msg.sender, issueTokenRemain);
     }
 
     /**
@@ -3168,33 +3023,25 @@ contract IssuanceModuleV2 is Ownable, ModuleBase, ReentrancyGuard {
         address[] memory _midTokens,
         address _to,
         uint256 _minRedeemTokenToRec
-    )
-    external
-    nonReentrant
-    onlyValidAndInitializedCK(_ckToken)
-    {
+    ) external nonReentrant onlyValidAndInitializedCK(_ckToken) {
         require(_ckTokenQuantity > 0, "Redeem quantity must be > 0");
         _ckToken.burn(msg.sender, _ckTokenQuantity);
 
-        (
-            address[] memory components,
-            uint256[] memory componentQuantities
-        ) = getRequiredComponentIssuanceUnits(_ckToken, _ckTokenQuantity, false);
+        (address[] memory components, uint256[] memory componentQuantities) =
+            getRequiredComponentIssuanceUnits(_ckToken, _ckTokenQuantity, false);
         uint256 totalRedeemTokenAcquired = 0;
         require(_midTokens.length == components.length, "_midTokens length mismatch");
         for (uint256 i = 0; i < components.length; i++) {
             _executeExternalPositionHooks(_ckToken, _ckTokenQuantity, IERC20(components[i]), false);
-            uint256 redeemTokenAcquired = _exchangeDefaultPositionsToRedeemToken(_ckToken, _redeemToken, _midTokens[i], components[i], componentQuantities[i]);
+            uint256 redeemTokenAcquired = _exchangeDefaultPositionsToRedeemToken(
+                _ckToken, _redeemToken, _midTokens[i], components[i], componentQuantities[i]
+            );
             totalRedeemTokenAcquired = totalRedeemTokenAcquired.add(redeemTokenAcquired);
         }
 
         require(totalRedeemTokenAcquired >= _minRedeemTokenToRec, "_minRedeemTokenToRec not met");
 
-        _ckToken.strictInvokeTransfer(
-            _redeemToken,
-            _to,
-            totalRedeemTokenAcquired
-        );
+        _ckToken.strictInvokeTransfer(_redeemToken, _to, totalRedeemTokenAcquired);
 
         emit CKTokenRedeemed(address(_ckToken), msg.sender, _to, _ckTokenQuantity);
     }
@@ -3206,13 +3053,10 @@ contract IssuanceModuleV2 is Ownable, ModuleBase, ReentrancyGuard {
      * @param _ckToken             Instance of the CKToken to issue
      * @param _preIssueHook         Instance of the Manager Contract with the Pre-Issuance Hook function
      */
-    function initialize(
-        ICKToken _ckToken,
-        IManagerIssuanceHook _preIssueHook
-    )
-    external
-    onlyCKManager(_ckToken, msg.sender)
-    onlyValidAndPendingCK(_ckToken)
+    function initialize(ICKToken _ckToken, IManagerIssuanceHook _preIssueHook)
+        external
+        onlyCKManager(_ckToken, msg.sender)
+        onlyValidAndPendingCK(_ckToken)
     {
         managerIssuanceHook[_ckToken] = _preIssueHook;
 
@@ -3231,13 +3075,7 @@ contract IssuanceModuleV2 is Ownable, ModuleBase, ReentrancyGuard {
      * @param _components           Array of components
      * @param _exchangeNames        Array of exchange names mapping to correct component
      */
-    function setExchanges(
-        address[] memory _components,
-        string[] memory _exchangeNames
-    )
-    external
-    onlyOwner
-    {
+    function setExchanges(address[] memory _components, string[] memory _exchangeNames) external onlyOwner {
         _components.validatePairsWithArray(_exchangeNames);
 
         for (uint256 i = 0; i < _components.length; i++) {
@@ -3262,10 +3100,7 @@ contract IssuanceModuleV2 is Ownable, ModuleBase, ReentrancyGuard {
         address[] memory _components,
         string[] memory _wrapAdapterNames,
         address[] memory _underlyingTokens
-    )
-    external
-    onlyOwner
-    {
+    ) external onlyOwner {
         _components.validatePairsWithArray(_wrapAdapterNames);
         _components.validatePairsWithArray(_underlyingTokens);
 
@@ -3290,27 +3125,19 @@ contract IssuanceModuleV2 is Ownable, ModuleBase, ReentrancyGuard {
      * @return address[]            List of component addresses
      * @return uint256[]            List of component units required for a given CKToken quantity
      */
-    function getRequiredComponentIssuanceUnits(
-        ICKToken _ckToken,
-        uint256 _quantity,
-        bool _isIssue
-    )
-    public
-    view
-    returns (address[] memory, uint256[] memory)
+    function getRequiredComponentIssuanceUnits(ICKToken _ckToken, uint256 _quantity, bool _isIssue)
+        public
+        view
+        returns (address[] memory, uint256[] memory)
     {
-        (
-            address[] memory components,
-            uint256[] memory issuanceUnits
-        ) = _getTotalIssuanceUnits(_ckToken);
+        (address[] memory components, uint256[] memory issuanceUnits) = _getTotalIssuanceUnits(_ckToken);
 
         uint256[] memory notionalUnits = new uint256[](components.length);
         for (uint256 i = 0; i < issuanceUnits.length; i++) {
             // Use preciseMulCeil to round up to ensure overcollateration when small issue quantities are provided
             // and preciseMul to round down to ensure overcollateration when small redeem quantities are provided
-            notionalUnits[i] = _isIssue ?
-                issuanceUnits[i].preciseMulCeil(_quantity) :
-                issuanceUnits[i].preciseMul(_quantity);
+            notionalUnits[i] =
+                _isIssue ? issuanceUnits[i].preciseMulCeil(_quantity) : issuanceUnits[i].preciseMul(_quantity);
             require(notionalUnits[i] > 0, "component amount should not be zero");
         }
 
@@ -3340,15 +3167,13 @@ contract IssuanceModuleV2 is Ownable, ModuleBase, ReentrancyGuard {
         uint256[] memory _weightings,
         address _to,
         bool _returnDust
-    )
-    internal
-    returns(uint256)
-    {
+    ) internal returns (uint256) {
         address hookContract = _callPreIssueHooks(_ckToken, _minCkTokenRec, msg.sender, _to);
         address[] memory components = _ckToken.getComponents();
         require(components.length == _weightings.length, "weightings mismatch");
         require(components.length == _midTokens.length, "midTokens mismatch");
-        (uint256 maxCkTokenToIssue, uint256 returnedIssueToken) = _issueWithSpec(_ckToken, _issueToken, _issueTokenQuantity, _midTokens, _weightings, _returnDust);
+        (uint256 maxCkTokenToIssue, uint256 returnedIssueToken) =
+            _issueWithSpec(_ckToken, _issueToken, _issueTokenQuantity, _midTokens, _weightings, _returnDust);
         require(maxCkTokenToIssue >= _minCkTokenRec, "_minCkTokenRec not met");
 
         _ckToken.mint(_to, maxCkTokenToIssue);
@@ -3358,10 +3183,14 @@ contract IssuanceModuleV2 is Ownable, ModuleBase, ReentrancyGuard {
         return returnedIssueToken;
     }
 
-    function _issueWithSpec(ICKToken _ckToken, address _issueToken, uint256 _issueTokenQuantity, address[] memory _midTokens, uint256[] memory _weightings, bool _returnDust)
-    internal
-    returns(uint256, uint256)
-    {
+    function _issueWithSpec(
+        ICKToken _ckToken,
+        address _issueToken,
+        uint256 _issueTokenQuantity,
+        address[] memory _midTokens,
+        uint256[] memory _weightings,
+        bool _returnDust
+    ) internal returns (uint256, uint256) {
         uint256 maxCkTokenToIssue = PreciseUnitMath.MAX_UINT_256;
         address[] memory components = _ckToken.getComponents();
         uint256[] memory componentTokenReceiveds = new uint256[](components.length);
@@ -3369,7 +3198,8 @@ contract IssuanceModuleV2 is Ownable, ModuleBase, ReentrancyGuard {
         for (uint256 i = 0; i < components.length; i++) {
             uint256 _issueTokenAmountToUse = _issueTokenQuantity.preciseMul(_weightings[i]).sub(1); // avoid underflow
             uint256 componentRealUnitRequired = (_ckToken.getDefaultPositionRealUnit(components[i])).toUint256();
-            uint256 componentReceived = _tradeAndWrapComponents(_ckToken, _issueToken, _issueTokenAmountToUse, _midTokens[i] ,components[i]);
+            uint256 componentReceived =
+                _tradeAndWrapComponents(_ckToken, _issueToken, _issueTokenAmountToUse, _midTokens[i], components[i]);
             componentTokenReceiveds[i] = componentReceived;
             // guarantee issue ck token amount.
             uint256 maxIssue = componentReceived.preciseDiv(componentRealUnitRequired);
@@ -3378,18 +3208,26 @@ contract IssuanceModuleV2 is Ownable, ModuleBase, ReentrancyGuard {
             }
         }
 
-        uint256 issueTokenToReturn = _dustToReturn(_ckToken, _issueToken, _midTokens, componentTokenReceiveds, maxCkTokenToIssue, _returnDust);
+        uint256 issueTokenToReturn =
+            _dustToReturn(_ckToken, _issueToken, _midTokens, componentTokenReceiveds, maxCkTokenToIssue, _returnDust);
 
         return (maxCkTokenToIssue, issueTokenToReturn);
     }
 
-    function _tradeAndWrapComponents(ICKToken _ckToken, address _issueToken, uint256 _issueTokenAmountToUse, address _midToken, address _component) internal returns(uint256) {
+    function _tradeAndWrapComponents(
+        ICKToken _ckToken,
+        address _issueToken,
+        uint256 _issueTokenAmountToUse,
+        address _midToken,
+        address _component
+    ) internal returns (uint256) {
         uint256 componentTokenReceived;
         if (_issueToken == _component) {
             componentTokenReceived = _issueTokenAmountToUse;
         } else if (wrapInfo[IERC20(_component)].underlyingToken == address(0)) {
             // For underlying tokens, exchange directly
-            (, componentTokenReceived) = _trade(_ckToken, _issueToken, _midToken, _component, _issueTokenAmountToUse, true);
+            (, componentTokenReceived) =
+                _trade(_ckToken, _issueToken, _midToken, _component, _issueTokenAmountToUse, true);
         } else {
             // For wrapped tokens, exchange to underlying tokens first and then wrap it
             WrapExecutionParams memory wrapExecutionParams = wrapInfo[IERC20(_component)];
@@ -3397,14 +3235,31 @@ contract IssuanceModuleV2 is Ownable, ModuleBase, ReentrancyGuard {
             uint256 underlyingReceived = 0;
             if (wrapExecutionParams.underlyingToken == wrapAdapter.ETH_TOKEN_ADDRESS()) {
                 if (_issueToken != address(weth)) {
-                    (, underlyingReceived) = _trade(_ckToken, _issueToken, _midToken, address(weth), _issueTokenAmountToUse, true);
+                    (, underlyingReceived) =
+                        _trade(_ckToken, _issueToken, _midToken, address(weth), _issueTokenAmountToUse, true);
                 } else {
                     underlyingReceived = _issueTokenAmountToUse;
                 }
-                componentTokenReceived = _wrap(_ckToken, wrapExecutionParams.underlyingToken, _component, underlyingReceived, wrapExecutionParams.wrapAdapterName, true);
+                componentTokenReceived = _wrap(
+                    _ckToken,
+                    wrapExecutionParams.underlyingToken,
+                    _component,
+                    underlyingReceived,
+                    wrapExecutionParams.wrapAdapterName,
+                    true
+                );
             } else {
-                (, underlyingReceived) = _trade(_ckToken, _issueToken, _midToken, wrapExecutionParams.underlyingToken , _issueTokenAmountToUse, true);
-                componentTokenReceived = _wrap(_ckToken, wrapExecutionParams.underlyingToken, _component, underlyingReceived, wrapExecutionParams.wrapAdapterName, false);
+                (, underlyingReceived) = _trade(
+                    _ckToken, _issueToken, _midToken, wrapExecutionParams.underlyingToken, _issueTokenAmountToUse, true
+                );
+                componentTokenReceived = _wrap(
+                    _ckToken,
+                    wrapExecutionParams.underlyingToken,
+                    _component,
+                    underlyingReceived,
+                    wrapExecutionParams.wrapAdapterName,
+                    false
+                );
             }
         }
 
@@ -3414,19 +3269,32 @@ contract IssuanceModuleV2 is Ownable, ModuleBase, ReentrancyGuard {
     /**
      * Swap remaining component back to issue token.
      */
-    function _dustToReturn(ICKToken _ckToken, address _issueToken, address[] memory _midTokens, uint256[] memory componentTokenReceiveds, uint256 maxCkTokenToIssue, bool _returnDust) internal returns(uint256) {
+    function _dustToReturn(
+        ICKToken _ckToken,
+        address _issueToken,
+        address[] memory _midTokens,
+        uint256[] memory componentTokenReceiveds,
+        uint256 maxCkTokenToIssue,
+        bool _returnDust
+    ) internal returns (uint256) {
         if (!_returnDust) {
             return 0;
         }
         uint256 issueTokenToReturn = 0;
         address[] memory components = _ckToken.getComponents();
 
-        for(uint256 i = 0; i < components.length; i++) {
-            uint256 requiredComponentUnit = ((_ckToken.getDefaultPositionRealUnit(components[i])).toUint256()).preciseMul(maxCkTokenToIssue);
+        for (uint256 i = 0; i < components.length; i++) {
+            uint256 requiredComponentUnit =
+                ((_ckToken.getDefaultPositionRealUnit(components[i])).toUint256()).preciseMul(maxCkTokenToIssue);
             uint256 toReturn = componentTokenReceiveds[i].sub(requiredComponentUnit);
             uint256 diffPercentage = toReturn.preciseDiv(requiredComponentUnit); // percentage in 18 decimals
-            if (diffPercentage > (PreciseUnitMath.preciseUnit().div(10000))) { // 0.01%
-                issueTokenToReturn = issueTokenToReturn.add(_exchangeDefaultPositionsToRedeemToken(_ckToken, _issueToken, _midTokens[i], components[i], toReturn));
+            if (diffPercentage > (PreciseUnitMath.preciseUnit().div(10000))) {
+                // 0.01%
+                issueTokenToReturn = issueTokenToReturn.add(
+                    _exchangeDefaultPositionsToRedeemToken(
+                        _ckToken, _issueToken, _midTokens[i], components[i], toReturn
+                    )
+                );
             }
         }
 
@@ -3467,14 +3335,9 @@ contract IssuanceModuleV2 is Ownable, ModuleBase, ReentrancyGuard {
      * can contain arbitrary logic including validations, external function calls, etc.
      * Note: All modules with external positions must implement ExternalPositionIssueHooks
      */
-    function _callPreIssueHooks(
-        ICKToken _ckToken,
-        uint256 _quantity,
-        address _caller,
-        address _to
-    )
-    internal
-    returns(address)
+    function _callPreIssueHooks(ICKToken _ckToken, uint256 _quantity, address _caller, address _to)
+        internal
+        returns (address)
     {
         IManagerIssuanceHook preIssueHook = managerIssuanceHook[_ckToken];
         if (address(preIssueHook) != address(0)) {
@@ -3491,25 +3354,28 @@ contract IssuanceModuleV2 is Ownable, ModuleBase, ReentrancyGuard {
      * Note: It is possible that these hooks can cause the states of other modules to change.
      * It can be problematic if the a hook called an external function that called back into a module, resulting in state inconsistencies.
      */
-    function _executeExternalPositionHooks(
-        ICKToken _ckToken,
-        uint256 _ckTokenQuantity,
-        IERC20 _component,
-        bool isIssue
-    )
-    internal
+    function _executeExternalPositionHooks(ICKToken _ckToken, uint256 _ckTokenQuantity, IERC20 _component, bool isIssue)
+        internal
     {
         address[] memory externalPositionModules = _ckToken.getExternalPositionModules(address(_component));
         for (uint256 i = 0; i < externalPositionModules.length; i++) {
             if (isIssue) {
-                IModuleIssuanceHook(externalPositionModules[i]).componentIssueHook(_ckToken, _ckTokenQuantity, _component, true);
+                IModuleIssuanceHook(externalPositionModules[i])
+                    .componentIssueHook(_ckToken, _ckTokenQuantity, _component, true);
             } else {
-                IModuleIssuanceHook(externalPositionModules[i]).componentRedeemHook(_ckToken, _ckTokenQuantity, _component, true);
+                IModuleIssuanceHook(externalPositionModules[i])
+                    .componentRedeemHook(_ckToken, _ckTokenQuantity, _component, true);
             }
         }
     }
 
-    function _exchangeDefaultPositionsToRedeemToken(ICKToken _ckToken, address _redeemToken, address _midToken, address _component, uint256 _componentQuantity) internal returns(uint256) {
+    function _exchangeDefaultPositionsToRedeemToken(
+        ICKToken _ckToken,
+        address _redeemToken,
+        address _midToken,
+        address _component,
+        uint256 _componentQuantity
+    ) internal returns (uint256) {
         uint256 redeemTokenAcquired;
         if (_redeemToken == _component) {
             // continue if redeem token is component token
@@ -3523,13 +3389,22 @@ contract IssuanceModuleV2 is Ownable, ModuleBase, ReentrancyGuard {
             WrapExecutionParams memory wrapExecutionParams = wrapInfo[IERC20(_component)];
             IWrapAdapter wrapAdapter = IWrapAdapter(getAndValidateAdapter(wrapExecutionParams.wrapAdapterName));
 
-            (uint256 underlyingReceived, uint256 unwrappedAmount) =
-                            _unwrap(_ckToken, wrapExecutionParams.underlyingToken, _component, _componentQuantity, wrapExecutionParams.wrapAdapterName, wrapExecutionParams.underlyingToken == wrapAdapter.ETH_TOKEN_ADDRESS());
+            (uint256 underlyingReceived, uint256 unwrappedAmount) = _unwrap(
+                _ckToken,
+                wrapExecutionParams.underlyingToken,
+                _component,
+                _componentQuantity,
+                wrapExecutionParams.wrapAdapterName,
+                wrapExecutionParams.underlyingToken == wrapAdapter.ETH_TOKEN_ADDRESS()
+            );
 
             if (wrapExecutionParams.underlyingToken == wrapAdapter.ETH_TOKEN_ADDRESS()) {
-                (, redeemTokenAcquired) = _trade(_ckToken, address(weth), _midToken, _redeemToken, underlyingReceived, true);
+                (, redeemTokenAcquired) =
+                    _trade(_ckToken, address(weth), _midToken, _redeemToken, underlyingReceived, true);
             } else {
-                (, redeemTokenAcquired) = _trade(_ckToken, wrapExecutionParams.underlyingToken, _midToken, _redeemToken, underlyingReceived, true);
+                (, redeemTokenAcquired) = _trade(
+                    _ckToken, wrapExecutionParams.underlyingToken, _midToken, _redeemToken, underlyingReceived, true
+                );
             }
         }
         return redeemTokenAcquired;
@@ -3538,10 +3413,7 @@ contract IssuanceModuleV2 is Ownable, ModuleBase, ReentrancyGuard {
     /**
      * Take snapshot of CKToken's balance of underlying and wrapped tokens.
      */
-    function _snapshotTargetTokenBalance(
-        ICKToken _ckToken,
-        address _targetToken
-    ) internal view returns(uint256) {
+    function _snapshotTargetTokenBalance(ICKToken _ckToken, address _targetToken) internal view returns (uint256) {
         uint256 targetTokenBalance = IERC20(_targetToken).balanceOf(address(_ckToken));
         return (targetTokenBalance);
     }
@@ -3552,13 +3424,10 @@ contract IssuanceModuleV2 is Ownable, ModuleBase, ReentrancyGuard {
      * @param _tradeInfo                Struct containing trade information used in internal functions
      */
     function _validatePostTrade(TradeInfo memory _tradeInfo) internal view returns (uint256) {
-        uint256 exchangedQuantity = IERC20(_tradeInfo.receiveToken)
-            .balanceOf(address(_tradeInfo.ckToken))
+        uint256 exchangedQuantity = IERC20(_tradeInfo.receiveToken).balanceOf(address(_tradeInfo.ckToken))
             .sub(_tradeInfo.preTradeReceiveTokenBalance);
 
-        require(
-            exchangedQuantity >= _tradeInfo.totalReceiveQuantity, "Slippage too big"
-        );
+        require(exchangedQuantity >= _tradeInfo.totalReceiveQuantity, "Slippage too big");
         return exchangedQuantity;
     }
 
@@ -3570,10 +3439,7 @@ contract IssuanceModuleV2 is Ownable, ModuleBase, ReentrancyGuard {
     function _validatePreTradeData(TradeInfo memory _tradeInfo) internal view {
         require(_tradeInfo.totalSendQuantity > 0, "Token to sell must be nonzero");
         uint256 sendTokenBalance = IERC20(_tradeInfo.sendToken).balanceOf(address(_tradeInfo.ckToken));
-        require(
-            sendTokenBalance >= _tradeInfo.totalSendQuantity,
-            "total send quantity cant be greater than existing"
-        );
+        require(sendTokenBalance >= _tradeInfo.totalSendQuantity, "total send quantity cant be greater than existing");
     }
 
     /**
@@ -3597,11 +3463,7 @@ contract IssuanceModuleV2 is Ownable, ModuleBase, ReentrancyGuard {
         address _receiveToken,
         uint256 _exactQuantity,
         bool _isSendTokenFixed
-    )
-    internal
-    view
-    returns (TradeInfo memory)
-    {
+    ) internal view returns (TradeInfo memory) {
         uint256 thresholdAmount;
         address[] memory path;
         if (_midToken == address(0) || _midToken == _sendToken || _midToken == _receiveToken) {
@@ -3615,17 +3477,18 @@ contract IssuanceModuleV2 is Ownable, ModuleBase, ReentrancyGuard {
             path[2] = _receiveToken;
         }
 
-
         TradeInfo memory tradeInfo;
         tradeInfo.ckToken = _ckToken;
         tradeInfo.exchangeAdapter = _exchangeAdapter;
         tradeInfo.sendToken = _sendToken;
         tradeInfo.receiveToken = _receiveToken;
-        tradeInfo.totalSendQuantity =  _exactQuantity;
+        tradeInfo.totalSendQuantity = _exactQuantity;
         tradeInfo.totalReceiveQuantity = 0;
         tradeInfo.preTradeSendTokenBalance = _snapshotTargetTokenBalance(_ckToken, _sendToken);
         tradeInfo.preTradeReceiveTokenBalance = _snapshotTargetTokenBalance(_ckToken, _receiveToken);
-        tradeInfo.data = _isSendTokenFixed ? _exchangeAdapter.generateDataParam(path, true) : _exchangeAdapter.generateDataParam(path, false);
+        tradeInfo.data = _isSendTokenFixed
+            ? _exchangeAdapter.generateDataParam(path, true)
+            : _exchangeAdapter.generateDataParam(path, false);
         return tradeInfo;
     }
 
@@ -3648,27 +3511,12 @@ contract IssuanceModuleV2 is Ownable, ModuleBase, ReentrancyGuard {
         uint256 _sendQuantity,
         uint256 _receiveQuantity,
         bytes memory _data
-    )
-    internal
-    {
+    ) internal {
         // Get spender address from exchange adapter and invoke approve for exact amount on CKToken
-        _ckToken.invokeApprove(
-            _sendToken,
-            _exchangeAdapter.getSpender(),
-            _sendQuantity
-        );
+        _ckToken.invokeApprove(_sendToken, _exchangeAdapter.getSpender(), _sendQuantity);
 
-        (
-            address targetExchange,
-            uint256 callValue,
-            bytes memory methodData
-        ) = _exchangeAdapter.getTradeCalldata(
-            _sendToken,
-            _receiveToken,
-            address(_ckToken),
-            _sendQuantity,
-            _receiveQuantity,
-            _data
+        (address targetExchange, uint256 callValue, bytes memory methodData) = _exchangeAdapter.getTradeCalldata(
+            _sendToken, _receiveToken, address(_ckToken), _sendQuantity, _receiveQuantity, _data
         );
 
         _ckToken.invoke(targetExchange, callValue, methodData);
@@ -3691,10 +3539,7 @@ contract IssuanceModuleV2 is Ownable, ModuleBase, ReentrancyGuard {
         address _receiveToken,
         uint256 _exactQuantity,
         bool _isSendTokenFixed
-    )
-    internal
-    returns (uint256, uint256)
-    {
+    ) internal returns (uint256, uint256) {
         if (address(_sendToken) == address(_receiveToken)) {
             return (_exactQuantity, _exactQuantity);
         }
@@ -3708,17 +3553,22 @@ contract IssuanceModuleV2 is Ownable, ModuleBase, ReentrancyGuard {
             _isSendTokenFixed
         );
         _validatePreTradeData(tradeInfo);
-        _executeTrade(tradeInfo.ckToken, tradeInfo.exchangeAdapter, tradeInfo.sendToken, tradeInfo.receiveToken, tradeInfo.totalSendQuantity, tradeInfo.totalReceiveQuantity, tradeInfo.data);
-        _validatePostTrade(tradeInfo);
-        uint256 totalSendQuantity = tradeInfo.preTradeSendTokenBalance.sub(_snapshotTargetTokenBalance(_ckToken, _sendToken));
-        uint256 totalReceiveQuantity = _snapshotTargetTokenBalance(_ckToken, _receiveToken).sub(tradeInfo.preTradeReceiveTokenBalance);
-        emit ComponentExchanged(
-            _ckToken,
-            _sendToken,
-            _receiveToken,
+        _executeTrade(
+            tradeInfo.ckToken,
             tradeInfo.exchangeAdapter,
-            totalSendQuantity,
-            totalReceiveQuantity
+            tradeInfo.sendToken,
+            tradeInfo.receiveToken,
+            tradeInfo.totalSendQuantity,
+            tradeInfo.totalReceiveQuantity,
+            tradeInfo.data
+        );
+        _validatePostTrade(tradeInfo);
+        uint256 totalSendQuantity =
+            tradeInfo.preTradeSendTokenBalance.sub(_snapshotTargetTokenBalance(_ckToken, _sendToken));
+        uint256 totalReceiveQuantity =
+            _snapshotTargetTokenBalance(_ckToken, _receiveToken).sub(tradeInfo.preTradeReceiveTokenBalance);
+        emit ComponentExchanged(
+            _ckToken, _sendToken, _receiveToken, tradeInfo.exchangeAdapter, totalSendQuantity, totalReceiveQuantity
         );
         return (totalSendQuantity, totalReceiveQuantity);
     }
@@ -3739,14 +3589,8 @@ contract IssuanceModuleV2 is Ownable, ModuleBase, ReentrancyGuard {
         uint256 _underlyingQuantity,
         string memory _integrationName,
         bool _usesEther
-    )
-    internal
-    returns (uint256)
-    {
-        (
-            uint256 notionalUnderlyingWrapped,
-            uint256 notionalWrapped
-        ) = _validateAndWrap(
+    ) internal returns (uint256) {
+        (uint256 notionalUnderlyingWrapped, uint256 notionalWrapped) = _validateAndWrap(
             _integrationName,
             _ckToken,
             _underlyingToken,
@@ -3756,12 +3600,7 @@ contract IssuanceModuleV2 is Ownable, ModuleBase, ReentrancyGuard {
         );
 
         emit ComponentWrapped(
-            _ckToken,
-            _underlyingToken,
-            _wrappedToken,
-            notionalUnderlyingWrapped,
-            notionalWrapped,
-            _integrationName
+            _ckToken, _underlyingToken, _wrappedToken, notionalUnderlyingWrapped, notionalWrapped, _integrationName
         );
         return notionalWrapped;
     }
@@ -3782,13 +3621,8 @@ contract IssuanceModuleV2 is Ownable, ModuleBase, ReentrancyGuard {
         uint256 _wrappedQuantity,
         string memory _integrationName,
         bool _usesEther
-    )
-    internal returns (uint256, uint256)
-    {
-        (
-            uint256 notionalUnderlyingUnwrapped,
-            uint256 notionalUnwrapped
-        ) = _validateAndUnwrap(
+    ) internal returns (uint256, uint256) {
+        (uint256 notionalUnderlyingUnwrapped, uint256 notionalUnwrapped) = _validateAndUnwrap(
             _integrationName,
             _ckToken,
             _underlyingToken,
@@ -3798,12 +3632,7 @@ contract IssuanceModuleV2 is Ownable, ModuleBase, ReentrancyGuard {
         );
 
         emit ComponentUnwrapped(
-            _ckToken,
-            _underlyingToken,
-            _wrappedToken,
-            notionalUnderlyingUnwrapped,
-            notionalUnwrapped,
-            _integrationName
+            _ckToken, _underlyingToken, _wrappedToken, notionalUnderlyingUnwrapped, notionalUnwrapped, _integrationName
         );
 
         return (notionalUnderlyingUnwrapped, notionalUnwrapped);
@@ -3824,10 +3653,7 @@ contract IssuanceModuleV2 is Ownable, ModuleBase, ReentrancyGuard {
         address _wrappedToken,
         uint256 _underlyingQuantity,
         bool _usesEther
-    )
-    internal
-    returns (uint256, uint256)
-    {
+    ) internal returns (uint256, uint256) {
         uint256 preActionUnderlyingNotional;
         // Snapshot pre wrap balances
         uint256 preActionWrapNotional = _snapshotTargetTokenBalance(_ckToken, _wrappedToken);
@@ -3879,10 +3705,7 @@ contract IssuanceModuleV2 is Ownable, ModuleBase, ReentrancyGuard {
         address _wrappedToken,
         uint256 _wrappedTokenQuantity,
         bool _usesEther
-    )
-    internal
-    returns (uint256, uint256)
-    {
+    ) internal returns (uint256, uint256) {
         _validateInputs(_ckToken, _wrappedToken, _wrappedTokenQuantity);
 
         // Snapshot pre wrap balance
@@ -3926,16 +3749,11 @@ contract IssuanceModuleV2 is Ownable, ModuleBase, ReentrancyGuard {
      * It is expected that the adapter will check if wrappedToken/underlyingToken are a valid pair for the given
      * integration.
      */
-    function _validateInputs(
-        ICKToken _ckToken,
-        address _component,
-        uint256 _quantity
-    )
-    internal
-    view
-    {
+    function _validateInputs(ICKToken _ckToken, address _component, uint256 _quantity) internal view {
         require(_quantity > 0, "component quantity must be > 0");
-        require(_snapshotTargetTokenBalance(_ckToken, _component) >= _quantity, "quantity cant be greater than existing");
+        require(
+            _snapshotTargetTokenBalance(_ckToken, _component) >= _quantity, "quantity cant be greater than existing"
+        );
     }
 
     /**
@@ -3948,15 +3766,8 @@ contract IssuanceModuleV2 is Ownable, ModuleBase, ReentrancyGuard {
         address _wrappedToken,
         uint256 _notionalUnderlying
     ) internal {
-        (
-            address callTarget,
-            uint256 callValue,
-            bytes memory callByteData
-        ) = _wrapAdapter.getWrapCallData(
-            _underlyingToken,
-            _wrappedToken,
-            _notionalUnderlying
-        );
+        (address callTarget, uint256 callValue, bytes memory callByteData) =
+            _wrapAdapter.getWrapCallData(_underlyingToken, _wrappedToken, _notionalUnderlying);
 
         _ckToken.invoke(callTarget, callValue, callByteData);
     }
@@ -3971,15 +3782,8 @@ contract IssuanceModuleV2 is Ownable, ModuleBase, ReentrancyGuard {
         address _wrappedToken,
         uint256 _notionalUnderlying
     ) internal {
-        (
-            address callTarget,
-            uint256 callValue,
-            bytes memory callByteData
-        ) = _wrapAdapter.getUnwrapCallData(
-            _underlyingToken,
-            _wrappedToken,
-            _notionalUnderlying
-        );
+        (address callTarget, uint256 callValue, bytes memory callByteData) =
+            _wrapAdapter.getUnwrapCallData(_underlyingToken, _wrappedToken, _notionalUnderlying);
 
         _ckToken.invoke(callTarget, callValue, callByteData);
     }
